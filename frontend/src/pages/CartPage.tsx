@@ -12,7 +12,7 @@ import { Rating } from '@smastrom/react-rating'
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { NumericFormat } from 'react-number-format';
 import Slider from "react-slick";
-import SliderComponent from "../components/SliderComponent"
+import RelatedProduct from "../components/RelatedProduct"
 
 const CartPage = () => {
 
@@ -406,7 +406,7 @@ const CartPage = () => {
                 <h3 className="title">Related Products</h3>
               </div>
               <div className="slider-container text-center">
-                <SliderComponent />
+                <RelatedProduct />
               </div>
             </Col>
           </Row>
