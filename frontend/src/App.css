@@ -493,11 +493,9 @@ ol.breadcrumb {
 
 .back-to-top {
   position: fixed;
-  display: none;
   right: 45px;
   bottom: 45px;
   z-index: 99;
- 
 }
 
 .btn-lg-square {
@@ -515,6 +513,6 @@ ol.breadcrumb {
   font-weight: normal;
 }
 
-.error-section{
+.error-section {
   margin-top: 10rem;
 }
