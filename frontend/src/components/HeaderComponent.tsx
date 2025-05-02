@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment,  useState } from "react";
 import { PersonCircle, PersonFillAdd, Search, Heart, Cart, Grid, PersonPlus, ArrowRightCircle } from 'react-bootstrap-icons';
 import { NavLink } from "react-router-dom"
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -11,16 +11,23 @@ import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import { BiLock } from "react-icons/bi";
 
+interface userInterface {
+    email:string,
+    phone:string,
+    city:string,
+    country:string
+}
+
 const HeaderComponent = () => {
 
     const filters = ["All Categories", "Laptop", "Accessories", "Camera", "Earphone"]
     const [filter, setFilter] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [wishlist, setWishlist] = useState(false);
-    const [authUser, setAuthUser] = useState({});
-    const [logged, setLogged] = useState(false);
     const navigate = useNavigate();
-
+    const logged:boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
+    const user:userInterface | null = (localStorage.getItem('auth_user') !== undefined && localStorage.getItem('auth_user') !== null) ? JSON.parse(String(localStorage.getItem('auth_user'))) : {}
+    
 
     const redirectTo = (event: React.MouseEvent<HTMLElement>, url: string) => {
         const e = event
@@ -46,24 +53,6 @@ const HeaderComponent = () => {
     }
 
 
-    useEffect(() => {
-
-        const isLogged = Object.keys(authUser).length > 0
-        setLogged(isLogged)
-
-        if (localStorage.getItem('auth_user') || localStorage.getItem('auth_token')) {
-            const auth_user = JSON.parse(localStorage.getItem('auth_user')!)
-            setAuthUser({
-                phone: auth_user.phone ? auth_user.phone : "Your Phone",
-                first_name: auth_user.first_name,
-                last_name: auth_user.last_name,
-                city: auth_user.city ? auth_user.city : "Your City",
-                country: auth_user.country ? auth_user.country : "Your Country",
-            })
-        }
-
-    }, [filter, showModal, wishlist, authUser, logged])
-
     return (
         <Fragment>
             <header>
@@ -72,9 +61,9 @@ const HeaderComponent = () => {
                         <div className='clearfix'>
                             {logged ? <>
                                 <ul className="header-links float-start p-0">
-                                    <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> +62-898-921-8470</a></li>
-                                    <li><a href="#"><i className="bi bi-envelope me-1 mb-1 text-primary"></i> sandy.andryanto.blade@gmail.com</a></li>
-                                    <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> West Java, Indonesia</a></li>
+                                    <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> {user?.phone}</a></li>
+                                    <li><a href="#"><i className="bi bi-envelope me-1 mb-1 text-primary"></i> {user?.email}</a></li>
+                                    <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> {user?.city}, {user?.country}</a></li>
                                 </ul>
                             </> : <></>}
                             <ul className="header-links float-end p-0 header-account">

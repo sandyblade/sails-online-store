@@ -48,7 +48,7 @@ module.exports = {
         if (err || !payload.user) return exits.invalid()
         var user = await User.findOne({
             where: {id : payload.user.id},
-            omit: ['password', 'resetToken', 'confirmToken', 'confirmed',  'createdAt', 'updatedAt']
+            omit: ['password',  'createdAt', 'updatedAt']
          });
         if (!user) return exits.invalid()
         // if it got this far, everything checks out, success

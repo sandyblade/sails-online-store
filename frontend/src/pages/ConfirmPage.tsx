@@ -2,18 +2,31 @@ import { Fragment, useState, useEffect } from 'react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Row, Col, Container, Card, CardBody, CardHeader, CardFooter } from 'react-bootstrap';
-import { NavLink } from "react-router-dom"
+import { NavLink, useParams  } from "react-router-dom"
+import Service from "../Service";
 
 const ConfirmPage = () => {
 
   const nowYear: number = new Date().getFullYear()
   const [loading, setLoading] = useState(true);
+  const [errorReseponse, setErrorResponse] = useState('')
+  const { token } = useParams();
+
+  const loadContent = async () => {
+     await Service.auth.confirm(token)
+      .then(() => {
+          setLoading(false)
+          setErrorResponse('')
+      })
+      .catch((error) => {
+        setErrorResponse(error.response.data?.message)
+      })
+  }
+
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, [loading])
+    loadContent()
+  }, [])
 
   return (
     <Fragment>
@@ -50,6 +63,11 @@ const ConfirmPage = () => {
                       <i className="bi-box-arrow-right me-2"></i>Please login here.
                     </NavLink>
                   </>}
+                  {errorReseponse !== '' ? <>
+                    <div className="alert alert-danger">
+                      <span>{errorReseponse}</span>
+                    </div>
+                  </> : <></>}
                 </CardBody>
                 <CardFooter className='p-3 text-center bg-primary'>
                   <span className="text-white">

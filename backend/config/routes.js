@@ -15,4 +15,5 @@ module.exports.routes = {
     'GET /api/auth/confirm/:token': 'AuthController.confirm',
     'POST /api/auth/email/forgot': 'AuthController.forgot',
     'POST /api/auth/email/reset/:token': 'AuthController.reset',
+    'GET /api/profile/detail': 'AccountController.detail',
 };

@@ -17,5 +17,7 @@ module.exports.policies = {
   * (`true` allows public access)                                            *
   *                                                                          *
   ***************************************************************************/
-
+  AccountController: {
+    '*': 'isAuthenticated'
+  },
 };

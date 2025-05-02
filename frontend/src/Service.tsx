@@ -37,22 +37,52 @@ const auth = {
     register: async (body: unknown) => {
         return await http().post("/api/auth/register", body)
     },
-    confirm: async (token: unknown) => {
+    confirm: async (token: string | undefined) => {
         return await http().get(`/api/auth/confirm/${token}`)
     },
-    resend: async (token: unknown) => {
+    resend: async (token: string | undefined) => {
         return await http().get(`/api/auth/resend/${token}`)
     },
     forgot: async (body: unknown) => {
         return await http().post("/api/auth/email/forgot", body)
     },
-    reset: async (token: string, body: unknown) => {
+    reset: async (token: string | undefined, body: unknown) => {
         return await http().post(`/api/auth/email/reset/${token}`, body)
+    },
+}
+
+const profile = {
+    detail: async () => {
+        return await http().get("/api/profile/detail")
+    },
+    activity: async () => {
+        return await http().get("/api/profile/activity")
+    },
+    changePassword: async (body: unknown) => {
+        return await http().post("/api/profile/password", body)
+    },
+    changeProfile: async (body: unknown) => {
+        return await http().post("/api/profile/update", body)
+    },
+    upload: async (file:any) => {
+
+        const auth_token = localStorage.getItem('auth_token')
+        const formData = new FormData();
+
+        formData.append('file_image', file);
+
+        let headerUpload = {
+            'Content-Type': 'multipart/form-data',
+            "Authorization ": `Bearer ${auth_token}`
+        }
+
+        return await axios.create({ baseURL: `${import.meta.env.VITE_APP_BACKEND_URL}`, headers: headerUpload }).post("/api/profile/upload", formData)
     },
 }
 
 export default {
     ping,
     expiredMessage,
-    auth
+    auth,
+    profile
 }

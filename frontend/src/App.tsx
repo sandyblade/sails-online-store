@@ -21,7 +21,7 @@ import Service from "./Service";
 import './App.css'
 
 const App = () => {
-
+  
   const [loading, setLoading] = useState(true);
   const [connected, setConnected] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -37,17 +37,17 @@ const App = () => {
   }
 
   const loadContent = useCallback(async () => {
-    await Service.ping()
-      .then(() => {
+    const content =  await Service.ping()
+    if(content.status === 200){
+      setTimeout(() => { 
         setLoading(false)
         setConnected(true)
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false)
-        setConnected(false)
-      })
-  }, [])
+      }, 3000)
+    }else{
+      setLoading(false)
+      setConnected(false)
+    }
+  }, [loading, connected])
 
   useEffect(() => {
 
@@ -55,9 +55,7 @@ const App = () => {
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    setTimeout(async () => {
-      await loadContent()
-    }, 1500);
+    loadContent()
 
     return () => window.removeEventListener('scroll', onScroll);
 
@@ -89,31 +87,35 @@ const App = () => {
             </div>
           </main>
         </> : <>
-          <HashRouter>
-            <HeaderComponent />
-            <NavbarComponent />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/auth/register/confirm/:token" element={<ConfirmPage />} />
-              <Route path="/auth/email/forgot" element={<ForgotPasswordPage />} />
-              <Route path="/auth/login" element={<LoginPage />} />
-              <Route path="/account/password" element={<PasswordPage />} />
-              <Route path="/account/profile" element={<ProfilePage />} />
-              <Route path="/auth/register" element={<RegisterPage />} />
-              <Route path="/auth/email/reset/:token" element={<ResetPasswordPage />} />
-              <Route path="/store" element={<StorePage />} />
-              <Route path="*" element={<ErrorPage />} />
-            </Routes>
-            <NewsletterComponent />
-            <FooterComponent />
-            {offset > 300 ? <>
-              <a href="#" onClick={(e) => toTop(e)} className="btn btn-lg btn-primary back-to-top">
-                <i className="bi bi-chevron-up"></i>
-              </a>
-            </> : <></>}
-          </HashRouter>
+          { connected ? <>
+          
+            <HashRouter>
+              <HeaderComponent />
+              <NavbarComponent />
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/auth/register/confirm/:token" element={<ConfirmPage />} />
+                <Route path="/auth/email/forgot" element={<ForgotPasswordPage />} />
+                <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/account/password" element={<PasswordPage />} />
+                <Route path="/account/profile" element={<ProfilePage />} />
+                <Route path="/auth/register" element={<RegisterPage />} />
+                <Route path="/auth/email/reset/:token" element={<ResetPasswordPage />} />
+                <Route path="/store" element={<StorePage />} />
+                <Route path="*" element={<ErrorPage />} />
+              </Routes>
+              <NewsletterComponent />
+              <FooterComponent />
+              {offset > 300 ? <>
+                <a href="#" onClick={(e) => toTop(e)} className="btn btn-lg btn-primary back-to-top">
+                  <i className="bi bi-chevron-up"></i>
+                </a>
+              </> : <></>}
+            </HashRouter>
+          
+          </> : <></> }
         </>}
       </>}
     </Fragment >
