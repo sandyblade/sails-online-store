@@ -2,12 +2,53 @@ import { Fragment, useState } from "react";
 import { Row, Col, Container, Card, CardBody, CardHeader, CardFooter } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { NavLink } from "react-router-dom"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import Service from "../Service";
+
+
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().required().min(6)
+  })
+  .required()
 
 const LoginPage = () => {
 
-  const [showPassword, setShowPassword] = useState(Boolean);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorReseponse, setErrorResponse] = useState('')
+  const [loading, setLoading] = useState(false)
   const nowYear: number = new Date().getFullYear()
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+    resolver: yupResolver(schema),
+  })
+
+  const onSubmit = (data: unknown) => {
+    setLoading(true)
+    setErrorResponse('')
+    setTimeout(async () => {
+      await Service.auth.login(data)
+        .then((result) => {
+          console.log(result)
+          setLoading(false)
+        })
+        .catch((error) => {
+          setLoading(false)
+          setErrorResponse(error.response.data?.message)
+        })
+    }, 1500)
+  }
 
   return (
     <Fragment>
@@ -39,13 +80,25 @@ const LoginPage = () => {
                       <small>Please sign in with your e-mail address and correct password.</small>
                     </p>
                   </div>
-                  <form>
+                  {errorReseponse !== '' ? <>
+                    <div className="alert alert-danger">
+                      <span>{errorReseponse}</span>
+                    </div>
+                  </> : <></>}
+                  <form onSubmit={handleSubmit(onSubmit)} noValidate={true}>
                     <div className="mb-3 mt-2">
                       <div className="input-group mb-3">
                         <span className="input-group-text">
                           <i className="bi-envelope"></i>
                         </span>
-                        <input type="email" id="email" name="email" className="form-control" placeholder="Email Address" required />
+                        <input type="email" id="email" {...register("email")} className={`form-control ${errors.email ? 'is-invalid' : ''}`} disabled={loading} placeholder="Email Address" required />
+                        {errors.email ? <>
+                          <div className="invalid-feedback">
+                            <span className="d-block">
+                              {errors.email?.message}
+                            </span>
+                          </div>
+                        </> : <></>}
                       </div>
                     </div>
                     <div className="mb-3 mt-2">
@@ -53,10 +106,17 @@ const LoginPage = () => {
                         <span className="input-group-text">
                           <i className="bi-lock"></i>
                         </span>
-                        <input type={showPassword ? 'text' : 'password'} id="password" name="password" className="form-control" placeholder="Credential Password" required />
+                        <input type={showPassword ? 'text' : 'password'} id="password" {...register("password")} className={`form-control ${errors.password ? 'is-invalid' : ''}`} disabled={loading} placeholder="Credential Password" required />
                         <span className="input-group-text input-group-password" onClick={() => setShowPassword(!showPassword)} >
                           <i className={showPassword ? 'bi-eye' : 'bi-eye-slash'}></i>
                         </span>
+                        {errors.password ? <>
+                          <div className="invalid-feedback">
+                            <span className="d-block">
+                              {errors.password?.message}
+                            </span>
+                          </div>
+                        </> : <></>}
                       </div>
                     </div>
                     <div className="clearfix mb-3">
@@ -71,8 +131,8 @@ const LoginPage = () => {
                         </NavLink>
                       </div>
                     </div>
-                    <button type="submit" className="btn btn-primary border w-100 mt-2" title="Click here to sign in">
-                      <i className="bi-box-arrow-right me-2"></i>Sign In Now
+                    <button type="submit" className={`btn btn-primary border w-100 mt-2 ${loading ? 'disabled' : ''}`} title="Click here to sign in">
+                      <i className={`${loading ? 'fas fa-circle-notch fa-spin me-2' : 'bi-box-arrow-right me-2'}`}></i>Sign In Now
                     </button>
                   </form>
                   <div className="text-center mt-3">

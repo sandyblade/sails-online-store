@@ -53,7 +53,7 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
 
-  // migrate: 'alter',
+  migrate: 'alter',
 
 
   /***************************************************************************
@@ -69,9 +69,9 @@ module.exports.models = {
   ***************************************************************************/
 
   attributes: {
-    createdAt: { type: 'number', autoCreatedAt: true, },
-    updatedAt: { type: 'number', autoUpdatedAt: true, },
-    id: { type: 'number', autoIncrement: true, },
+    // createdAt: { type: 'number', autoCreatedAt: true, },
+    // updatedAt: { type: 'number', autoUpdatedAt: true, },
+    // id: { type: 'number', autoIncrement: true, },
     //--------------------------------------------------------------------------
     //  /\   Using MongoDB?
     //  ||   Replace `id` above with this instead:
@@ -101,7 +101,7 @@ module.exports.models = {
   ******************************************************************************/
 
   dataEncryptionKeys: {
-    default: 'ZMwQwPbgfLm1r6nZNKB9csuirIGlaY2v28BIs22VFS8='
+    default: 'nlvRnw9Ts9yRYpJmcmH/VBezCJrGxVPLmS5yhCa9SuQ='
   },
 
 
@@ -118,7 +118,7 @@ module.exports.models = {
   *                                                                          *
   ***************************************************************************/
 
-  cascadeOnDestroy: true
-
+  cascadeOnDestroy: true,
+  archiveModelIdentity: false
 
 };

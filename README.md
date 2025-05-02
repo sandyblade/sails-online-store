@@ -110,7 +110,7 @@ DB_DSN=mysql://db_user:db_password@db_host:db_port/db_database
 ```shell
 sudo service mysqld start / sudo systemctl start mariadb
 CREATE DATABASE {database-name}
-nodemon
+nodemon or sails lift
 ```
 
 #### 5. Install frontend dependencies, please move to directory sails-online-store/frontend
@@ -122,7 +122,7 @@ npm run dev
 #### 6. Make a .env.local file and customize its settings 
 ```shell
 REACT_APP_TITLE="My Website"
-REACT_APP_BACKEND_URL=http://localhost:8000
+REACT_APP_BACKEND_URL=http://localhost:1337
 ```
 
 #### 7. Run Application 

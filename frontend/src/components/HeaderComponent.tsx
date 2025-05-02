@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
+import { BiLock } from "react-icons/bi";
 
 const HeaderComponent = () => {
 
@@ -16,19 +17,52 @@ const HeaderComponent = () => {
     const [filter, setFilter] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [wishlist, setWishlist] = useState(false);
+    const [authUser, setAuthUser] = useState({});
+    const [logged, setLogged] = useState(false);
     const navigate = useNavigate();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const redirectTo = (event: any, url: string) => {
+
+    const redirectTo = (event: React.MouseEvent<HTMLElement>, url: string) => {
         const e = event
         e.preventDefault()
         setShowModal(false)
         setTimeout(() => { navigate(url); })
     }
 
+    const logout = (event: React.MouseEvent<HTMLElement>) => {
+        const e = event
+        e.preventDefault();
+        e.nativeEvent.stopImmediatePropagation();
+
+        if (localStorage.getItem('auth_token')) {
+            localStorage.removeItem('auth_token')
+        }
+
+        if (localStorage.getItem('auth_user')) {
+            localStorage.removeItem('auth_user')
+        }
+
+        setTimeout(() => { location.reload() })
+    }
+
+
     useEffect(() => {
 
-    }, [filter, showModal, wishlist])
+        const isLogged = Object.keys(authUser).length > 0
+        setLogged(isLogged)
+
+        if (localStorage.getItem('auth_user') || localStorage.getItem('auth_token')) {
+            const auth_user = JSON.parse(localStorage.getItem('auth_user')!)
+            setAuthUser({
+                phone: auth_user.phone ? auth_user.phone : "Your Phone",
+                first_name: auth_user.first_name,
+                last_name: auth_user.last_name,
+                city: auth_user.city ? auth_user.city : "Your City",
+                country: auth_user.country ? auth_user.country : "Your Country",
+            })
+        }
+
+    }, [filter, showModal, wishlist, authUser, logged])
 
     return (
         <Fragment>
@@ -36,22 +70,33 @@ const HeaderComponent = () => {
                 <div id="top-header" className='p-0 bg-dark'>
                     <div className="container py-2">
                         <div className='clearfix'>
-                            <ul className="header-links float-start p-0">
-                                <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> +62-898-921-8470</a></li>
-                                <li><a href="#"><i className="bi bi-envelope me-1 mb-1 text-primary"></i> sandy.andryanto.blade@gmail.com</a></li>
-                                <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> West Java, Indonesia</a></li>
-                            </ul>
+                            {logged ? <>
+                                <ul className="header-links float-start p-0">
+                                    <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> +62-898-921-8470</a></li>
+                                    <li><a href="#"><i className="bi bi-envelope me-1 mb-1 text-primary"></i> sandy.andryanto.blade@gmail.com</a></li>
+                                    <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> West Java, Indonesia</a></li>
+                                </ul>
+                            </> : <></>}
                             <ul className="header-links float-end p-0 header-account">
-                                <li><a href="#"><i className="bi bi-currency-dollar me-1 mb-1 text-primary"></i> USD</a></li>
-                                <li>
-                                    <NavLink to="/account/profile"><PersonPlus className='me-1 mb-1 text-primary' /> My Account</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/auth/login"><PersonCircle className='me-1 mb-1 text-primary' /> Login</NavLink>
-                                </li>
-                                <li>
-                                    <NavLink to="/auth/register"><PersonFillAdd className='me-1 mb-1 text-primary' /> Register</NavLink>
-                                </li>
+                                {logged ? <>
+                                    <li><a href="#"><i className="bi bi-currency-dollar me-1 mb-1 text-primary"></i> USD</a></li>
+                                    <li>
+                                        <NavLink to="/account/profile"><PersonPlus className='me-1 mb-1 text-primary' /> My Account</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/account/password"><BiLock className='me-1 mb-1 text-primary' /> Change Password</NavLink>
+                                    </li>
+                                    <li>
+                                        <a href="#" onClick={(e) => logout(e)} ><i className="fas fa-sign-out me-1 mb-1 text-primary"></i> Sign Out</a>
+                                    </li>
+                                </> : <>
+                                    <li>
+                                        <NavLink to="/auth/login"><PersonCircle className='me-1 mb-1 text-primary' /> Login</NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/auth/register"><PersonFillAdd className='me-1 mb-1 text-primary' /> Register</NavLink>
+                                    </li>
+                                </>}
                             </ul>
                         </div>
                     </div>
@@ -88,46 +133,50 @@ const HeaderComponent = () => {
                                 </div>
                             </div>
                             <div className="col-md-3 clearfix">
-                                <div className="header-ctn">
+                                {logged ? <>
 
-                                    <div className='position-relative'>
-                                        <a href="#" onClick={(e) => {
-                                            e.preventDefault()
-                                            setShowModal(true)
-                                            setWishlist(true)
-                                        }} className='text-center text-decoration-none fw-bold'>
-                                            <Heart className='mb-2' size={18} />
-                                            <span className='d-block'>Your Wishlist</span>
-                                        </a>
-                                        <span className="position-absolute top-0 ms-3 start-50 translate-middle badge rounded-pill bg-danger">
-                                            2
-                                            <span className="visually-hidden">New Wishlist</span>
-                                        </span>
+                                    <div className="header-ctn">
+
+                                        <div className='position-relative'>
+                                            <a href="#" onClick={(e) => {
+                                                e.preventDefault()
+                                                setShowModal(true)
+                                                setWishlist(true)
+                                            }} className='text-center text-decoration-none fw-bold'>
+                                                <Heart className='mb-2' size={18} />
+                                                <span className='d-block'>Your Wishlist</span>
+                                            </a>
+                                            <span className="position-absolute top-0 ms-3 start-50 translate-middle badge rounded-pill bg-danger">
+                                                2
+                                                <span className="visually-hidden">New Wishlist</span>
+                                            </span>
+                                        </div>
+
+                                        <div className='position-relative'>
+                                            <a href="#" onClick={(e) => {
+                                                e.preventDefault()
+                                                setShowModal(true)
+                                                setWishlist(false)
+                                            }} className='text-center text-decoration-none fw-bold'>
+                                                <Cart className='mb-2' size={18} />
+                                                <span className='d-block'>Your Cart</span>
+                                            </a>
+                                            <span className="position-absolute top-0 ms-3 start-50 translate-middle badge rounded-pill bg-danger">
+                                                3
+                                                <span className="visually-hidden">New Cart</span>
+                                            </span>
+                                        </div>
+
+                                        <div className="menu-toggle">
+                                            <a href="#">
+                                                <Grid className='mb-2' size={18} />
+                                                <span>Menu</span>
+                                            </a>
+                                        </div>
+
                                     </div>
 
-                                    <div className='position-relative'>
-                                        <a href="#" onClick={(e) => {
-                                            e.preventDefault()
-                                            setShowModal(true)
-                                            setWishlist(false)
-                                        }} className='text-center text-decoration-none fw-bold'>
-                                            <Cart className='mb-2' size={18} />
-                                            <span className='d-block'>Your Cart</span>
-                                        </a>
-                                        <span className="position-absolute top-0 ms-3 start-50 translate-middle badge rounded-pill bg-danger">
-                                            3
-                                            <span className="visually-hidden">New Cart</span>
-                                        </span>
-                                    </div>
-
-                                    <div className="menu-toggle">
-                                        <a href="#">
-                                            <Grid className='mb-2' size={18} />
-                                            <span>Menu</span>
-                                        </a>
-                                    </div>
-
-                                </div>
+                                </> : <></>}
                             </div>
                         </div>
                     </div>
@@ -215,7 +264,7 @@ const HeaderComponent = () => {
                 </Modal.Body>
             </Modal>
 
-        </Fragment>
+        </Fragment >
     )
 }
 

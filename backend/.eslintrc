@@ -5,11 +5,6 @@
   // A set of basic code conventions designed to encourage quality and consistency
   // across your Sails app's code base.  These rules are checked against
   // automatically any time you run `npm test`.
-  // 
-  // > An additional eslintrc override file is included in the `assets/` folder
-  // > right out of the box.  This is specifically to allow for variations in acceptable
-  // > global variables between front-end JavaScript code designed to run in the browser
-  // > vs. backend code designed to run in a Node.js/Sails process.
   //
   // > Note: If you're using mocha, you'll want to add an extra override file to your
   // > `test/` folder so that eslint will tolerate mocha-specific globals like `before`
@@ -60,7 +55,7 @@
       "ObjectExpression": 1,
       "ignoredNodes": ["ConditionalExpression"]
     }],
-    "linebreak-style":              ["error", "unix"],
+    "linebreak-style":              0,
     "no-dupe-keys":                 ["error"],
     "no-duplicate-case":            ["error"],
     "no-extra-semi":                ["warn"],

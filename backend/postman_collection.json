@@ -1,0 +1,659 @@
+{
+	"info": {
+		"_postman_id": "1a9fcdba-85bb-4685-ae91-116646b4e762",
+		"name": "Sails REST API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17401019"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"melyna.klein72@gmail.com\",\r\n    \"password\":\"P@ssw0rd!123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/auth/login",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"sandyandryanto@gmail002.com\",\r\n    \"password\":\"P@ssw0rd!123\",\r\n    \"password_confirm\":\"P@ssw0rd!123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/auth/register",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/auth/confirm/09b9ab93-d13f-4cfd-857a-3a92ace0ee9b",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"confirm",
+								"09b9ab93-d13f-4cfd-857a-3a92ace0ee9b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"sandyandryanto@gmail001.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/auth/email/forgot",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"email",
+								"forgot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"sandyandryanto@gmail001.com\",\r\n    \"password\":\"P@ssw0rd!123\",\r\n    \"password_confirm\":\"P@ssw0rd!123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/auth/email/reset/2fe7824a-87c3-4364-9289-ce19ca10373e",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"auth",
+								"email",
+								"reset",
+								"2fe7824a-87c3-4364-9289-ce19ca10373e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Account",
+			"item": [
+				{
+					"name": "User Profile Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/account/detail",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"detail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Profile Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kenneth_mcglynn@hotmail.com\",\r\n    \"phone\": \"377-470-8905 x691\",\r\n    \"image\": null,\r\n    \"firstName\": \"Sandy\",\r\n    \"lastName\": \"Andryanto\",\r\n    \"gender\": \"M\",\r\n    \"country\": \"Togo\",\r\n    \"facebook\": \"Jaime.Koch\",\r\n    \"instagram\": \"Herminio60\",\r\n    \"twitter\": \"Erin68\",\r\n    \"linkedIn\": \"Lester83\",\r\n    \"jobTitle\": \"Principal Infrastructure Architect\",\r\n    \"address\": \"913 Bartoletti Shores\",\r\n    \"aboutMe\": \"Inflammatio verus error audax aperte ullus. Pauci usus aliqua. Aiunt timidus suffragium degero consectetur velit brevis aeneus torrens.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/account/update",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change User Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\":\"P@ssw0rd!123\",\r\n    \"password\":\"P@ssw0rd!123\",\r\n    \"passwordConfirm\":\"P@ssw0rd!123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/account/password",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload User Profile Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/account/upload",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Referesh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/account/token",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activity",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/account/activity?search=image",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"account",
+								"activity"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "image"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notification",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/notification/list?search=",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"notification",
+								"list"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/notification/read/1",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"notification",
+								"read",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/notification/remove/1",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"notification",
+								"remove",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Article",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/article/list",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"What is Lorem Ipsum 1\",\r\n    \"description\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s\",\r\n    \"content\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\",\r\n    \"status\": 1,\r\n    \"categories\":[\"Sport\",\"News\",\"Technology\",\"Culinary\",\"Politic\",\"Economic\"],\r\n    \"tags\":[\"Favorite\",\"Hot News\",\"Best Seller\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/article/create",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/article/read/what-is-lorem-ipsum-3",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"read",
+								"what-is-lorem-ipsum-3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"What is Lorem Ipsum ? (Part 2)\",\r\n    \"description\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s\",\r\n    \"content\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\",\r\n    \"status\": 1,\r\n    \"categories\":[\"Sport\",\"News\",\"Technology\",\"Culinary\",\"Politic\",\"Economic\"],\r\n    \"tags\":[\"Favorite\",\"Hot News\",\"Best Seller\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/article/update/5",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/article/remove/4",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"remove",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/article/user",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Words",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/article/words?max=1000",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"words"
+							],
+							"query": [
+								{
+									"key": "max",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file_image",
+									"type": "file",
+									"src": "/C:/Users/MKI-007/Pictures/pic1.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseURL}}api/article/upload/3",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"article",
+								"upload",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/comment/list/2",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"comment",
+								"list",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\":\"There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}api/comment/create/2",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"comment",
+								"create",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}api/comment/remove/2",
+							"host": [
+								"{{baseURL}}api"
+							],
+							"path": [
+								"comment",
+								"remove",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxMywiZW1haWwiOiJtZWx5bmEua2xlaW43MkBnbWFpbC5jb20iLCJwaG9uZSI6IjY3Ny04MjItMzQwNCB4ODUyNCIsInBhc3N3b3JkIjoiJDJiJDEwJDZoS2Z5dlQzZHhrdmkvM0dYMy81RHU1ZFdKV0QyV0NIZ2s3dXlUMDd6QTkuWjVrQUVrZTFLIiwiaW1hZ2UiOm51bGwsImZpcnN0TmFtZSI6IkNhcm9saW5lIiwibGFzdE5hbWUiOiJBbmRlcnNvbiIsImdlbmRlciI6Ik0iLCJjb3VudHJ5IjoiUmV1bmlvbiIsImZhY2Vib29rIjoiRWx2ZXJhLkZlZXN0MzgiLCJpbnN0YWdyYW0iOiJOZWxsaWU0IiwidHdpdHRlciI6IlBlZ2dpZTMzIiwibGlua2VkSW4iOiJNZXJ0aWVfQ29uc2lkaW5lIiwiam9iVGl0bGUiOiJJbnRlcm5hbCBJbXBsZW1lbnRhdGlvbiBQbGFubmVyIiwiYWRkcmVzcyI6Ijc5MjYxIEFudHdvbiBJc2xhbmRzIiwiYWJvdXRNZSI6IlRyYWN0byBhcGVyaW8gZGVzb2xvIHBvc3NpbXVzIGJvcyBkb2xvcmVtLiBBc3BvcnRvIGNsZW1lbnRpYSBjbGliYW51cyBhbGlvcXVpLiBWb3ZlbyBhbGllbnVzIG1pbmltYSBwYWVucy4iLCJyZXNldFRva2VuIjpudWxsLCJjb25maXJtVG9rZW4iOm51bGwsImNvbmZpcm1lZCI6MSwiY3JlYXRlZEF0IjoiMjAyNC0wOC0yOFQwMjo1Mjo1Ny4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wOC0yOFQwMjo1Mjo1Ny4wMDBaIn0sImlhdCI6MTcyNDkwMzI3OCwiZXhwIjoxNzI0OTg5Njc4fQ.n1DKVFy3KWajQFNuhf19b5c7GWh-SELQagPse_DH8KY",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://localhost:8000/",
+			"type": "string"
+		}
+	]
+}

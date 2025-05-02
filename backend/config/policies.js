@@ -8,6 +8,7 @@
  * https://sailsjs.com/docs/concepts/policies
  */
 
+
 module.exports.policies = {
 
   /***************************************************************************
@@ -16,7 +17,5 @@ module.exports.policies = {
   * (`true` allows public access)                                            *
   *                                                                          *
   ***************************************************************************/
-
-  // '*': true,
 
 };

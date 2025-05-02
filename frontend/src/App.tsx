@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useCallback } from "react";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import HeaderComponent from "./components/HeaderComponent";
 import NavbarComponent from "./components/NavbarComponent";
@@ -17,6 +17,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import StorePage from "./pages/StorePage";
 import { Route, HashRouter, Routes } from "react-router";
+import Service from "./Service";
 import './App.css'
 
 const App = () => {
@@ -25,16 +26,28 @@ const App = () => {
   const [connected, setConnected] = useState(false);
   const [offset, setOffset] = useState(0);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const toTop = (event: any) => {
+  const toTop = (event: React.MouseEvent<HTMLElement>) => {
     const e = event
     e.preventDefault();
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
-    e.stopImmediatePropagation();
+    e.nativeEvent.stopImmediatePropagation();
   }
+
+  const loadContent = useCallback(async () => {
+    await Service.ping()
+      .then(() => {
+        setLoading(false)
+        setConnected(true)
+      })
+      .catch((error) => {
+        console.log(error)
+        setLoading(false)
+        setConnected(false)
+      })
+  }, [])
 
   useEffect(() => {
 
@@ -42,14 +55,13 @@ const App = () => {
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    setTimeout(() => {
-      setLoading(false);
-      setConnected(true);
-    }, 3000);
+    setTimeout(async () => {
+      await loadContent()
+    }, 1500);
 
     return () => window.removeEventListener('scroll', onScroll);
 
-  }, [loading, connected, offset])
+  }, [loadContent])
 
   return (
     <Fragment>
