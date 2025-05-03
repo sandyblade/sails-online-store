@@ -104,28 +104,30 @@ const ProfilePage = () => {
       })
   }
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setLoadingUpload(true)
       const file_image = e.target.files[0]
       const formData = new FormData();
       formData.append('file_image', file_image);
-      await Service.profile.upload(formData)
-        .then((response) => {
-          const message = response.data.message
-          setLoadingUpload(false)
-          setTimeout(async () => {
-            setErrorResponse('')
-            setSuccessResponse(message)
-            setLoading(true)
-            await loadContent()
-          }, 2000)
-        })
-        .catch((error) => {
-          console.log(error)
-          const msg = error.status === 401 ? Service.expiredMessage : (error.response.data?.message || error.message)
-          setErrorResponse(msg)
-        })
+      setTimeout(async () => {
+        await Service.profile.upload(formData)
+          .then((response) => {
+            const message = response.data.message
+            setLoadingUpload(false)
+            setTimeout(async () => {
+              setErrorResponse('')
+              setSuccessResponse(message)
+              setLoading(true)
+              await loadContent()
+            }, 2000)
+          })
+          .catch((error) => {
+            console.log(error)
+            const msg = error.status === 401 ? Service.expiredMessage : (error.response.data?.message || error.message)
+            setErrorResponse(msg)
+          })
+      }, 2000)
     }
   }
 
@@ -206,6 +208,27 @@ const ProfilePage = () => {
                         <div className="invalid-feedback">
                           <span className="d-block">
                             {errors.lastName?.message}
+                          </span>
+                        </div>
+                      </> : <></>}
+                    </>}
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Gender <span className="text-danger">*</span></label>
+                    {loading ? <>
+                      <Shimmer width={1} className="w-100 mb-2" height={25} />
+                    </> : <>
+                      <select
+                        className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                        {...register("gender", { required: true })}
+                      >
+                        <option value={'M'}>Male</option>
+                        <option value={'F'}>Female</option>
+                      </select>
+                      {errors.gender ? <>
+                        <div className="invalid-feedback">
+                          <span className="d-block">
+                            {errors.gender?.message}
                           </span>
                         </div>
                       </> : <></>}
