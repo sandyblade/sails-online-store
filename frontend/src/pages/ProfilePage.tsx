@@ -43,9 +43,11 @@ const schema = yup
 const ProfilePage = () => {
 
   const logged: boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
+  const [image, setImage] = useState('')
   const [errorReseponse, setErrorResponse] = useState('')
   const [successReseponse, setSuccessResponse] = useState('')
   const [loading, setLoading] = useState(true)
+  const [loadingUpload, setLoadingUpload] = useState(false)
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [user, setUser] = useState<IUser>()
   const [activities, setActivities] = useState([])
@@ -88,7 +90,9 @@ const ProfilePage = () => {
       .then(async (response) => {
         const act = await Service.profile.activity()
         setTimeout(() => {
-          setUser(response.data)
+          const _user = response.data
+          setImage(_user.image)
+          setUser(_user)
           setActivities(act.data)
           setLoading(false)
         }, 2000)
@@ -98,6 +102,31 @@ const ProfilePage = () => {
         const msg = error.status === 401 ? Service.expiredMessage : (error.response.data?.message || error.message)
         setErrorResponse(msg)
       })
+  }
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setLoadingUpload(true)
+      const file_image = e.target.files[0]
+      const formData = new FormData();
+      formData.append('file_image', file_image);
+      await Service.profile.upload(formData)
+        .then((response) => {
+          const message = response.data.message
+          setLoadingUpload(false)
+          setTimeout(async () => {
+            setErrorResponse('')
+            setSuccessResponse(message)
+            setLoading(true)
+            await loadContent()
+          }, 2000)
+        })
+        .catch((error) => {
+          console.log(error)
+          const msg = error.status === 401 ? Service.expiredMessage : (error.response.data?.message || error.message)
+          setErrorResponse(msg)
+        })
+    }
   }
 
   useEffect(() => {
@@ -140,12 +169,16 @@ const ProfilePage = () => {
                 <form onSubmit={handleSubmit(onSubmit)} noValidate={true}>
                   <h3 className='text-uppercase mb-3 text-center'>Account Profile</h3>
                   <div className="mb-3">
-                    {loading ? <>
+                    {loading || loadingUpload ? <>
                       <Shimmer width={1} className="w-25 mb-2" height={100} />
                     </> : <>
-                      <i className="bi-person-circle d-block mb-3 image-user-font"></i>
+                      {image ? <>
+                        <img className="image img-thumbnail mb-2 d-block" width="200" src={Service.getUpload(image)} />
+                      </> : <>
+                        <i className="bi-person-circle d-block mb-3 image-user-font"></i>
+                      </>}
                       <label className="form-label">Image Profile </label>
-                      <input type="file" className="form-control" />
+                      <input type="file" className="form-control" onChange={handleFileChange} />
                     </>}
                   </div>
                   <div className="mb-3">

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const fs = require('fs');
 
 require("dotenv").config();
 
@@ -92,8 +93,53 @@ module.exports = {
   },
 
 
-  upload: async function (req, res) {
-    return res.json({ message: 'Your profile picture has been changed !!' });
+  upload: function (req, res) {
+
+    let session = req.user
+    let userid = session.id
+
+    req.file('file_image').upload({
+      // don't allow the total upload size to exceed ~10MB
+      maxBytes: 10000000,
+      dirname: require('path').resolve(sails.config.appPath, 'assets/uploads')
+    }, async function (err, uploadedFiles) {
+
+      if (err){
+          return res.serverError(err);
+      }
+
+      if(session.image){
+         let fileExists = require('path').resolve(sails.config.appPath, "assets/"+session.image)
+         if (fs.existsSync(fileExists)) {
+            fs.unlink(fileExists, function (err) {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        }
+      }
+
+      let fileUpload =  uploadedFiles[0].fd.split('\\')
+      let file = fileUpload.pop()
+      let filePath = "uploads/"+file
+
+      await User.updateOne({id: userid }).set({
+        image: filePath,
+        updatedAt: new Date()
+      })
+
+      await Activity.create({
+        user: userid,
+        event: "Change Profile Image",
+        subject: "Update Current Profile Image",
+        description: "Your has been updated current profile image.",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+
+      return res.json({ message: 'Your profile picture has been changed !!' });
+
+    });
   },
 
   activity: async function (req, res) {

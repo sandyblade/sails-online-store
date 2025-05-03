@@ -51,6 +51,10 @@ const auth = {
     },
 }
 
+const getUpload = (path: string) => {
+    return `${import.meta.env.VITE_APP_BACKEND_URL}/${path}`
+}
+
 const profile = {
     detail: async () => {
         return await http().get("/api/profile/detail")
@@ -76,6 +80,7 @@ const profile = {
 
 export default {
     ping,
+    getUpload,
     expiredMessage,
     auth,
     profile
