@@ -37,7 +37,7 @@ module.exports = {
            return res.status(401).json({ message: 'You need to confirm your account. We have sent you an activation code, please check your email.!' });
         }
 
-        let token = jwt.sign({user}, process.env.JWT_KEY, { expiresIn: '24h'});
+        let token = jwt.sign({user}, process.env.JWT_KEY, { expiresIn: '720h'});
 
         await Activity.create({
             user: user.id,
@@ -48,7 +48,7 @@ module.exports = {
             updatedAt: new Date()
         });
 
-        return res.json({ token: token, expiresIn: moment().add(24, 'hours').format('YYYY-MM-DD HH:mm:ss') });
+        return res.json({ token: token });
     },
 
     register: async function (req, res) {
@@ -147,7 +147,13 @@ module.exports = {
         updatedAt: new Date(),
       }
 
+      let updateUser = {
+        status: 1,
+        updatedAt: new Date(),
+      }
+
       await Authentication.updateOne({token: token, status: 0 }).set(updateData)
+      await User.updateOne({ email: user.credential }).set(updateUser)
 
       return res.json({ message: 'Your e-mail is verified. You can now login.' });
 

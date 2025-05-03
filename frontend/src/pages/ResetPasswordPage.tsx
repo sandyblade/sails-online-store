@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Row, Col, Container, Card, CardBody, CardHeader, CardFooter } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import { useParams, Navigate  } from "react-router-dom"
+import { useParams, Navigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -24,20 +24,20 @@ const ResetPasswordPage = () => {
   const [redirect, setRedirect] = useState('')
   const [loading, setLoading] = useState(false)
   const nowYear: number = new Date().getFullYear()
-  const logged:boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
+  const logged: boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
   const { token } = useParams();
 
   const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({
-      defaultValues: {
-        email: "",
-        password: "",
-        password_confirmation: ""
-      },
-      resolver: yupResolver(schema),
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+      password: "",
+      password_confirmation: ""
+    },
+    resolver: yupResolver(schema),
   })
 
   const onSubmit = (data: unknown) => {
@@ -47,7 +47,7 @@ const ResetPasswordPage = () => {
     setTimeout(async () => {
       await Service.auth.reset(token, data)
         .then(async (response) => {
-          let message = response.data.message
+          const message = response.data.message
           setLoading(false)
           setErrorResponse('')
           setSuccessResponse(message)
@@ -62,11 +62,11 @@ const ResetPasswordPage = () => {
     }, 2000)
   }
 
-  if(logged){
+  if (logged) {
     return <Navigate to="/" />
-  }else if(redirect){
+  } else if (redirect) {
     return <Navigate to={redirect} />
-  }else{
+  } else {
     return (
       <Fragment>
         <main className="flex-shrink-0 p-3 border-bottom bg-gray text-uppercase mb-5" id="breadcrumb">

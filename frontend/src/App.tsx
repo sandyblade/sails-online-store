@@ -21,7 +21,8 @@ import Service from "./Service";
 import './App.css'
 
 const App = () => {
-  
+
+  const logged: boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
   const [loading, setLoading] = useState(true);
   const [connected, setConnected] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -37,17 +38,33 @@ const App = () => {
   }
 
   const loadContent = useCallback(async () => {
-    const content =  await Service.ping()
-    if(content.status === 200){
-      setTimeout(() => { 
+    const content = await Service.ping()
+    if (content.status === 200) {
+      setTimeout(() => {
         setLoading(false)
         setConnected(true)
       }, 3000)
-    }else{
+    } else {
       setLoading(false)
       setConnected(false)
     }
   }, [loading, connected])
+
+  const auth = async () => {
+    if (logged) {
+      await Service.profile.detail()
+        .catch((error) => {
+          if (error.status === 401) {
+            if (localStorage.getItem('auth_token')) {
+              localStorage.removeItem('auth_token')
+            }
+            if (localStorage.getItem('auth_user')) {
+              localStorage.removeItem('auth_user')
+            }
+          }
+        })
+    }
+  }
 
   useEffect(() => {
 
@@ -55,11 +72,12 @@ const App = () => {
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
 
+    auth()
     loadContent()
 
     return () => window.removeEventListener('scroll', onScroll);
 
-  }, [loadContent])
+  }, [])
 
   return (
     <Fragment>
@@ -87,8 +105,8 @@ const App = () => {
             </div>
           </main>
         </> : <>
-          { connected ? <>
-          
+          {connected ? <>
+
             <HashRouter>
               <HeaderComponent />
               <NavbarComponent />
@@ -114,8 +132,8 @@ const App = () => {
                 </a>
               </> : <></>}
             </HashRouter>
-          
-          </> : <></> }
+
+          </> : <></>}
         </>}
       </>}
     </Fragment >

@@ -1,4 +1,4 @@
-import { Fragment,  useState } from "react";
+import { Fragment, useState } from "react";
 import { PersonCircle, PersonFillAdd, Search, Heart, Cart, Grid, PersonPlus, ArrowRightCircle } from 'react-bootstrap-icons';
 import { NavLink } from "react-router-dom"
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -12,10 +12,10 @@ import { useNavigate } from "react-router-dom";
 import { BiLock } from "react-icons/bi";
 
 interface userInterface {
-    email:string,
-    phone:string,
-    city:string,
-    country:string
+    email: string,
+    phone: string,
+    city: string,
+    country: string
 }
 
 const HeaderComponent = () => {
@@ -25,9 +25,9 @@ const HeaderComponent = () => {
     const [showModal, setShowModal] = useState(false);
     const [wishlist, setWishlist] = useState(false);
     const navigate = useNavigate();
-    const logged:boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
-    const user:userInterface | null = (localStorage.getItem('auth_user') !== undefined && localStorage.getItem('auth_user') !== null) ? JSON.parse(String(localStorage.getItem('auth_user'))) : {}
-    
+    const logged: boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
+    const user: userInterface | null = (localStorage.getItem('auth_user') !== undefined && localStorage.getItem('auth_user') !== null) ? JSON.parse(String(localStorage.getItem('auth_user'))) : {}
+
 
     const redirectTo = (event: React.MouseEvent<HTMLElement>, url: string) => {
         const e = event
@@ -61,9 +61,9 @@ const HeaderComponent = () => {
                         <div className='clearfix'>
                             {logged ? <>
                                 <ul className="header-links float-start p-0">
-                                    <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> {user?.phone}</a></li>
+                                    <li><a href="https://wa.me/628989218470"><i className="bi bi-telephone-outbound me-1 mb-1 text-primary"></i> {user?.phone ? user?.phone : 'Your Phone'}</a></li>
                                     <li><a href="#"><i className="bi bi-envelope me-1 mb-1 text-primary"></i> {user?.email}</a></li>
-                                    <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> {user?.city}, {user?.country}</a></li>
+                                    <li><a href="#"><i className="bi bi-pin-map me-1 mb-1 text-primary"></i> {user?.city ? user?.city : 'Your City'}, {user?.country ? user?.country : 'Your Country'}</a></li>
                                 </ul>
                             </> : <></>}
                             <ul className="header-links float-end p-0 header-account">

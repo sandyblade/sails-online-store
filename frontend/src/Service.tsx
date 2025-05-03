@@ -64,18 +64,12 @@ const profile = {
     changeProfile: async (body: unknown) => {
         return await http().post("/api/profile/update", body)
     },
-    upload: async (file:any) => {
-
+    upload: async (formData: unknown) => {
         const auth_token = localStorage.getItem('auth_token')
-        const formData = new FormData();
-
-        formData.append('file_image', file);
-
-        let headerUpload = {
+        const headerUpload = {
             'Content-Type': 'multipart/form-data',
             "Authorization ": `Bearer ${auth_token}`
         }
-
         return await axios.create({ baseURL: `${import.meta.env.VITE_APP_BACKEND_URL}`, headers: headerUpload }).post("/api/profile/upload", formData)
     },
 }

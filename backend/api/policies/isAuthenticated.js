@@ -21,7 +21,7 @@ module.exports = async function (req, res, next){
       if (req.wantsJSON){
         return res.sendStatus(401)
       }
-      return res.redirect('/login')
+      return res.redirect('/auth/login')
     },
     success: function(){
       return next()

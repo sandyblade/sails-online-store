@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Row, Col, Container, Card, CardBody, CardHeader, CardFooter } from 'react-bootstrap';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import { NavLink, Navigate  } from "react-router-dom"
+import { NavLink, Navigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -21,7 +21,7 @@ const LoginPage = () => {
   const [errorReseponse, setErrorResponse] = useState('')
   const [loading, setLoading] = useState(false)
   const nowYear: number = new Date().getFullYear()
-  const logged:boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
+  const logged: boolean = localStorage.getItem('auth_token') !== undefined && localStorage.getItem('auth_token') !== null
 
   const {
     register,
@@ -42,16 +42,16 @@ const LoginPage = () => {
     setTimeout(async () => {
       await Service.auth.login(data)
         .then(async (response) => {
-         
+
           setLoading(false)
           setErrorResponse('')
 
-          let token = response.data.token
+          const token = response.data.token
           if (!localStorage.getItem('auth_token')) {
             localStorage.setItem('auth_token', token)
           }
 
-          let profile = await Service.profile.detail()
+          const profile = await Service.profile.detail()
           if (!localStorage.getItem('auth_user')) {
             localStorage.setItem('auth_user', JSON.stringify(profile.data))
           }
@@ -64,9 +64,9 @@ const LoginPage = () => {
     }, 2000)
   }
 
-  if(logged){ 
+  if (logged) {
     return <Navigate to="/" />
-  }else{
+  } else {
     return (
       <Fragment>
         <main className="flex-shrink-0 p-3 border-bottom bg-gray text-uppercase mb-5" id="breadcrumb">

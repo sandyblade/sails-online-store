@@ -16,4 +16,8 @@ module.exports.routes = {
     'POST /api/auth/email/forgot': 'AuthController.forgot',
     'POST /api/auth/email/reset/:token': 'AuthController.reset',
     'GET /api/profile/detail': 'AccountController.detail',
+    'POST /api/profile/password': 'AccountController.password',
+    'POST /api/profile/update': 'AccountController.update',
+    'POST /api/profile/upload': 'AccountController.upload',
+    'GET /api/profile/activity': 'AccountController.activity',
 };
